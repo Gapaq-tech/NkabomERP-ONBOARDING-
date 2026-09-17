@@ -68,7 +68,8 @@
   .narrow{max-width:var(--max-narrow);}
 
   /* ---------- header ---------- */
-  header{padding:26px 0;position:sticky;top:0;z-index:10;isolation:isolate;}
+  /* FIX: z-index raised to 100 so nothing in the page stacks above the toggle */
+  header{padding:26px 0;position:sticky;top:0;z-index:100;isolation:isolate;}
   header::before{
     content:"";position:absolute;inset:0;
     background:rgba(250,249,245,0.92);
@@ -91,32 +92,46 @@
   }
   header nav a:hover{color:var(--navy);background:var(--green-tint);}
   header nav a.active{color:var(--green-deep);background:var(--green-tint);}
+
+  /* FIX: z-index:200 keeps toggle above nav drawer and backdrop at all times
+          touch-action:manipulation kills the 300ms iOS tap delay
+          -webkit-tap-highlight-color removes the grey flash that can swallow the tap */
   .menu-toggle{
     display:none;border:1px solid var(--line);background:var(--panel);color:var(--navy);
-    border-radius:8px;width:42px;height:42px;align-items:center;justify-content:center;
+    border-radius:8px;width:44px;height:44px;align-items:center;justify-content:center;
     cursor:pointer;flex-direction:column;gap:5px;
+    position:relative;z-index:200;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
   }
-  .menu-toggle .bar{width:18px;height:2px;background:var(--navy);border-radius:2px;transition:transform .2s ease, opacity .2s ease;}
+  /* FIX: pointer-events:none on bar spans — button receives the tap, not the child spans */
+  .menu-toggle .bar{width:18px;height:2px;background:var(--navy);border-radius:2px;transition:transform .2s ease, opacity .2s ease;pointer-events:none;}
   header.nav-open .menu-toggle .bar:nth-child(1){transform:translateY(7px) rotate(45deg);}
   header.nav-open .menu-toggle .bar:nth-child(2){opacity:0;}
   header.nav-open .menu-toggle .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  /* FIX: backdrop is now styled as a div (not a button) — z-index:140 sits
+          above page content but below the nav drawer(150) and toggle(200) */
   .sidebar-backdrop{display:none;}
   .nav-mobile-cta{display:none;}
 
   @media (max-width:680px){
     header{padding:16px 0;}
     .menu-toggle{display:inline-flex;}
+    /* FIX: nav drawer at z-index:150 — above backdrop, below toggle */
     header nav{
-      position:fixed;z-index:20;top:0;right:0;bottom:0;width:min(82vw,320px);
+      position:fixed;z-index:150;top:0;right:0;bottom:0;width:min(82vw,320px);
       padding:88px 24px 28px;background:var(--panel);
       box-shadow:-16px 0 36px rgba(8,27,48,0.18);
       transform:translateX(100%);transition:transform .2s ease;
       display:flex;flex-direction:column;
+      overflow-y:auto;
     }
     header.nav-open nav{transform:translateX(0);}
     header nav a{display:block;padding:14px 12px;font-size:1rem;}
+    /* FIX: backdrop as block-level div, z-index:140, pointer-events:none until open */
     .sidebar-backdrop{
-      display:block;position:fixed;inset:0;z-index:15;background:rgba(8,27,48,0.34);
+      display:block;position:fixed;inset:0;z-index:140;background:rgba(8,27,48,0.34);
       opacity:0;pointer-events:none;transition:opacity .2s ease;
     }
     header.nav-open .sidebar-backdrop{opacity:1;pointer-events:auto;}
@@ -125,6 +140,8 @@
       margin-top:auto;padding:13px 16px;border-radius:8px;
       background:var(--green);color:#fff;font-weight:600;font-size:0.94rem;
       text-decoration:none;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
     }
     .wrap{padding:0 20px;}
     .hero{padding:44px 0 40px;}
@@ -390,10 +407,11 @@
       <a href="#capabilities" data-section="capabilities">Capabilities</a>
       <a href="#screens" data-section="screens">See it in action</a>
       <a href="#contact" data-section="contact">Get in touch</a>
-      <!-- SECURITY: noopener noreferrer on all target="_blank" links — closes tab-napping -->
       <a class="nav-mobile-cta" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
     </nav>
-    <button class="sidebar-backdrop" type="button" aria-label="Close navigation"></button>
+    <!-- FIX: changed from <button> to <div> — a competing button element was stealing tap events
+              before the menu-toggle could receive them on mobile browsers -->
+    <div class="sidebar-backdrop" aria-hidden="true"></div>
   </div>
 </header>
 <div class="stripe"></div>
@@ -407,7 +425,6 @@
         <h1>Run your business without the guesswork.</h1>
         <p class="lede">Business management, built for African businesses. Track sales, manage stock, and get paid with Mobile Money built in from day one.</p>
         <div class="cta-row">
-          <!-- SECURITY: rel="noopener noreferrer" on every target="_blank" — closes tab-napping attack vector -->
           <a class="btn btn-primary" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.35 5.08L2 22l5.05-1.32C8.5 21.5 10.2 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.18-1.77 1.24-.45.06-1.02.08-1.65-.1-.38-.12-.87-.28-1.5-.55-2.64-1.14-4.36-3.78-4.5-3.96-.13-.18-1.08-1.44-1.08-2.75s.68-1.95.92-2.22c.24-.26.53-.33.7-.33h.5c.16 0 .38-.06.6.46.22.53.75 1.85.82 1.98.07.13.11.29.02.47-.09.18-.14.29-.27.44-.13.16-.28.35-.4.47-.13.13-.27.28-.11.55.15.26.68 1.13 1.47 1.83 1.01.9 1.86 1.18 2.13 1.31.27.13.42.11.58-.07.16-.18.68-.79.86-1.06.18-.27.36-.22.6-.13.24.09 1.55.73 1.82.87.27.13.45.2.51.31.07.11.07.64-.15 1.26z"/></svg>
             Chat on WhatsApp
@@ -494,23 +511,133 @@
     <p class="section-sub">Most business software sells accounting, CRM, and inventory as separate add-ons. Here, it's all included one login, one system.</p>
 
     <section id="capabilities">
-      <div class="eyebrow-label">One system, however your business runs</div>
-      <h2 class="section-label">Built for supermarkets, malls, warehouses, pharmacies, retail &amp; more</h2>
-      <p class="section-sub">Most business software sells accounting, CRM, and inventory as separate add-ons. Here, it's all included — one login, one system.</p>
 
-      <div class="fgroups">
-        <div class="fgroup"><h3>Supermarkets</h3><ul><li>Point of Sale for fast checkout</li><li>Barcode scanning</li><li>Large inventory management</li><li>Multiple departments &amp; sections</li><li>Price lists &amp; promotions</li><li>Low-stock alerts</li></ul></div>
-        <div class="fgroup"><h3>Malls</h3><ul><li>Manage multiple stores and branches</li><li>Track sales across locations</li><li>Centralized inventory</li><li>Tenant and business management</li><li>Reports across all locations</li><li>Role-based staff access</li></ul></div>
-        <div class="fgroup"><h3>Retail &amp; checkout</h3><ul><li>Point of Sale for walk-in customers</li><li>Barcode scanning</li><li>Price lists &amp; discounts</li><li>Customer loyalty tracking</li><li>Multiple stores or branches</li></ul></div>
-        <div class="fgroup"><h3>Warehousing &amp; stock</h3><ul><li>Multi-warehouse inventory</li><li>Batch &amp; expiry date tracking</li><li>Serial number tracking</li><li>Stock transfers between locations</li><li>Low-stock reorder alerts</li><li>Stock reconciliation &amp; audits</li></ul></div>
-        <div class="fgroup"><h3>Money &amp; accounts</h3><ul><li>Invoicing &amp; billing</li><li>Mobile Money (MTN, Vodafone, AirtelTigo)</li><li>Expense tracking</li><li>Bank reconciliation</li><li>Multi-currency support</li><li>Profit &amp; loss, balance sheet reports</li></ul></div>
-        <div class="fgroup"><h3>Purchasing &amp; suppliers</h3><ul><li>Purchase orders</li><li>Supplier bills &amp; payments</li><li>Purchase requests</li><li>Landed cost tracking</li></ul></div>
-        <div class="fgroup"><h3>People &amp; teams</h3><ul><li>Staff logins with permissions</li><li>Attendance &amp; leave tracking</li><li>Payroll</li><li>Employee records</li></ul></div>
-        <div class="fgroup"><h3>Customers &amp; growth</h3><ul><li>Customer &amp; lead management</li><li>Quotations</li><li>Support ticketing</li><li>Email &amp; notification templates</li></ul></div>
-        <div class="fgroup"><h3>Reports &amp; control</h3><ul><li>Real-time dashboards</li><li>Custom reports</li><li>Activity &amp; audit trail</li><li>Role-based access control</li></ul></div>
-        <div class="fgroup"><h3>Projects &amp; assets</h3><ul><li>Project &amp; task tracking</li><li>Timesheets</li><li>Fixed asset management</li><li>Maintenance schedules</li></ul></div>
-      </div>
-    </section>
+  <div class="eyebrow-label">One system, however your business runs</div>
+
+  <h2 class="section-label">
+    Built for supermarkets, malls, warehouses, pharmacies, retail &amp; more
+  </h2>
+
+  <p class="section-sub">
+    Most business software sells accounting, CRM, and inventory as separate add-ons.
+    Here, it's all included — one login, one system.
+  </p>
+
+  <div class="fgroups">
+
+    <div class="fgroup">
+      <h3>Supermarkets</h3>
+      <ul>
+        <li>Point of Sale for fast checkout</li>
+        <li>Barcode scanning</li>
+        <li>Large inventory management</li>
+        <li>Multiple departments &amp; sections</li>
+        <li>Price lists &amp; promotions</li>
+        <li>Low-stock alerts</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Malls</h3>
+      <ul>
+        <li>Manage multiple stores and branches</li>
+        <li>Track sales across locations</li>
+        <li>Centralized inventory</li>
+        <li>Tenant and business management</li>
+        <li>Reports across all locations</li>
+        <li>Role-based staff access</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Retail &amp; checkout</h3>
+      <ul>
+        <li>Point of Sale for walk-in customers</li>
+        <li>Barcode scanning</li>
+        <li>Price lists &amp; discounts</li>
+        <li>Customer loyalty tracking</li>
+        <li>Multiple stores or branches</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Warehousing &amp; stock</h3>
+      <ul>
+        <li>Multi-warehouse inventory</li>
+        <li>Batch &amp; expiry date tracking</li>
+        <li>Serial number tracking</li>
+        <li>Stock transfers between locations</li>
+        <li>Low-stock reorder alerts</li>
+        <li>Stock reconciliation &amp; audits</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Money &amp; accounts</h3>
+      <ul>
+        <li>Invoicing &amp; billing</li>
+        <li>Mobile Money (MTN, Vodafone, AirtelTigo)</li>
+        <li>Expense tracking</li>
+        <li>Bank reconciliation</li>
+        <li>Multi-currency support</li>
+        <li>Profit &amp; loss, balance sheet reports</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Purchasing &amp; suppliers</h3>
+      <ul>
+        <li>Purchase orders</li>
+        <li>Supplier bills &amp; payments</li>
+        <li>Purchase requests</li>
+        <li>Landed cost tracking</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>People &amp; teams</h3>
+      <ul>
+        <li>Staff logins with permissions</li>
+        <li>Attendance &amp; leave tracking</li>
+        <li>Payroll</li>
+        <li>Employee records</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Customers &amp; growth</h3>
+      <ul>
+        <li>Customer &amp; lead management</li>
+        <li>Quotations</li>
+        <li>Support ticketing</li>
+        <li>Email &amp; notification templates</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Reports &amp; control</h3>
+      <ul>
+        <li>Real-time dashboards</li>
+        <li>Custom reports</li>
+        <li>Activity &amp; audit trail</li>
+        <li>Role-based access control</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Projects &amp; assets</h3>
+      <ul>
+        <li>Project &amp; task tracking</li>
+        <li>Timesheets</li>
+        <li>Fixed asset management</li>
+        <li>Maintenance schedules</li>
+      </ul>
+    </div>
+
+  </div>
+
+</section>
+
   </section>
 
   <section id="screens">
@@ -532,7 +659,7 @@
           <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
           <img class="shot" src="asset/screenshot-crm.png" alt="NkabomERP CRM screen showing leads, opportunities, and sales pipeline shortcuts">
         </div>
-        <p class="screen-caption">CRM track leads, opportunities, and the sales pipeline in one view.</p>
+        <p class="screen-caption">CRM  track leads, opportunities, and the sales pipeline in one view.</p>
       </div>
 
       <div class="screen-card">
@@ -594,47 +721,72 @@
 
 <!-- SECURITY: nonce matches CSP header above — only this script block is permitted to execute -->
 <script nonce="NkabomERPn0nce2026">
-  const header = document.querySelector('header');
-  const menuToggle = document.querySelector('.menu-toggle');
-  const sidebarBackdrop = document.querySelector('.sidebar-backdrop');
-  const navigationLinks = document.querySelectorAll('#site-nav a[data-section]');
+(function () {
+  'use strict';
 
-  function setNavigationOpen(isOpen) {
-    header.classList.toggle('nav-open', isOpen);
-    document.body.classList.toggle('nav-locked', isOpen);
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
-    menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+  var header     = document.querySelector('header');
+  var toggle     = document.querySelector('.menu-toggle');
+  var backdrop   = document.querySelector('.sidebar-backdrop');
+  var navLinks   = document.querySelectorAll('#site-nav a[data-section]');
+
+  function setOpen(open) {
+    header.classList.toggle('nav-open', open);
+    document.body.classList.toggle('nav-locked', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
   }
 
-  menuToggle.addEventListener('click', () => {
-    setNavigationOpen(!header.classList.contains('nav-open'));
-  });
-  sidebarBackdrop.addEventListener('click', () => setNavigationOpen(false));
-  document.querySelectorAll('#site-nav a').forEach((link) => {
-    link.addEventListener('click', () => setNavigationOpen(false));
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') setNavigationOpen(false);
+  /* FIX: touchend fires before the 300ms synthetic click on iOS/Android
+          e.preventDefault() stops the ghost click from toggling twice
+          e.stopPropagation() stops the tap reaching the document and immediately closing */
+  function onToggle(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    setOpen(!header.classList.contains('nav-open'));
+  }
+
+  toggle.addEventListener('click',    onToggle);
+  toggle.addEventListener('touchend', onToggle, { passive: false });
+
+  function onClose(e) {
+    e.preventDefault();
+    setOpen(false);
+  }
+
+  backdrop.addEventListener('click',    onClose);
+  backdrop.addEventListener('touchend', onClose, { passive: false });
+
+  document.querySelectorAll('#site-nav a').forEach(function (link) {
+    link.addEventListener('click',    function () { setOpen(false); });
+    link.addEventListener('touchend', function () { setOpen(false); });
   });
 
-  const sections = Array.from(navigationLinks)
-    .map((link) => document.getElementById(link.dataset.section))
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setOpen(false);
+  });
+
+  /* Active section highlight */
+  var sections = Array.from(navLinks)
+    .map(function (l) { return document.getElementById(l.dataset.section); })
     .filter(Boolean);
 
   if ('IntersectionObserver' in window && sections.length) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const link = document.querySelector(`#site-nav a[data-section="${entry.target.id}"]`);
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var link = document.querySelector(
+          '#site-nav a[data-section="' + entry.target.id + '"]'
+        );
         if (!link) return;
         if (entry.isIntersecting) {
-          navigationLinks.forEach((l) => l.classList.remove('active'));
+          navLinks.forEach(function (l) { l.classList.remove('active'); });
           link.classList.add('active');
         }
       });
     }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
 
-    sections.forEach((section) => observer.observe(section));
+    sections.forEach(function (s) { observer.observe(s); });
   }
+})();
 </script>
 
 </body>
