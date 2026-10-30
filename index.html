@@ -382,6 +382,22 @@
   footer p{color:var(--ink-faint);font-size:0.86rem;margin:0;}
 
 
+
+  /* ---------- app flyers ---------- */
+  .flyer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:36px;}
+  .flyer{
+    display:flex;flex-direction:column;text-decoration:none;
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+    transition:box-shadow .15s ease, transform .15s ease;
+  }
+  .flyer:hover{box-shadow:0 14px 28px -18px rgba(14,42,71,0.25);transform:translateY(-2px);}
+  .flyer img{display:block;width:100%;height:auto;aspect-ratio:902/1280;object-fit:cover;background:var(--green-tint);}
+  .flyer .flyer-body{padding:16px 18px 18px;border-top:3px solid var(--green);}
+  .flyer h3{font-size:1rem;font-weight:700;margin:0 0 4px;}
+  .flyer p{margin:0;color:var(--ink-soft);font-size:0.9rem;line-height:1.5;}
+  @media (max-width:980px){ .flyer-grid{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:420px){ .flyer-grid{gap:14px;} .flyer .flyer-body{padding:12px 14px 14px;} .flyer p{font-size:.85rem;} }
+
   /* ---------- small polish ---------- */
   header{transition:box-shadow .2s ease;}
   header.scrolled{box-shadow:0 6px 20px -14px rgba(14,42,71,0.35);}
@@ -415,6 +431,7 @@
     </button>
     <nav id="site-nav" aria-label="Main navigation">
       <a href="#features" data-section="features">What you can do</a>
+      <a href="#apps" data-section="apps">Our apps</a>
       <a href="#capabilities" data-section="capabilities">Capabilities</a>
       <a href="#screens" data-section="screens">See it in action</a>
       <a href="#contact" data-section="contact">Get in touch</a>
@@ -513,6 +530,43 @@
         <h3>Accounts for your whole team</h3>
         <p>Give staff their own logins, with control over what each person can see and do.</p>
       </div>
+    </div>
+  </section>
+
+  <section id="apps">
+    <div class="eyebrow-label">Our apps</div>
+    <h2 class="section-label">Pick the app your business needs</h2>
+    <p class="section-sub">Start with one, add more as you grow. Tap a flyer to see it full size.</p>
+
+    <div class="flyer-grid">
+      <a class="flyer" href="asset/flyer-finance.jpg" target="_blank" rel="noopener">
+        <img src="asset/flyer-finance.jpg" alt="NkabomERP Finance and Reports App flyer" loading="lazy" width="902" height="1280">
+        <div class="flyer-body">
+          <h3>Finance &amp; Reports</h3>
+          <p>For business owners who want visibility.</p>
+        </div>
+      </a>
+      <a class="flyer" href="asset/flyer-pos.jpg" target="_blank" rel="noopener">
+        <img src="asset/flyer-pos.jpg" alt="NkabomERP Sales and POS App flyer" loading="lazy" width="902" height="1280">
+        <div class="flyer-body">
+          <h3>Sales &amp; POS</h3>
+          <p>Smart checkout for shops &amp; supermarkets.</p>
+        </div>
+      </a>
+      <a class="flyer" href="asset/flyer-inventory.jpg" target="_blank" rel="noopener">
+        <img src="asset/flyer-inventory.jpg" alt="NkabomERP Inventory and Stock Management App flyer" loading="lazy" width="902" height="1280">
+        <div class="flyer-body">
+          <h3>Inventory &amp; Stock</h3>
+          <p>For warehouses &amp; pharmacies.</p>
+        </div>
+      </a>
+      <a class="flyer" href="asset/flyer-multibranch.jpg" target="_blank" rel="noopener">
+        <img src="asset/flyer-multibranch.jpg" alt="NkabomERP Multi-branch Management App flyer" loading="lazy" width="902" height="1280">
+        <div class="flyer-body">
+          <h3>Multi-branch Management</h3>
+          <p>For anyone with more than one location.</p>
+        </div>
+      </a>
     </div>
   </section>
 
