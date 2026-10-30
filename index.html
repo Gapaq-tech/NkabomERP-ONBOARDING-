@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- Security meta fallbacks (real headers are set in vercel.json) -->
+<!-- ============================================================
+     SECURITY HEADERS (meta fallbacks — real headers go server-side)
+     ============================================================ -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'none';
   script-src 'self';
@@ -18,11 +20,12 @@
 ">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+<meta http-equiv="X-Frame-Options" content="DENY">
+<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0E2A47">
-<title>NkabomERP — Business management, built for African businesses</title>
-<meta name="description" content="NkabomERP is business management software built for African businesses — sales, inventory, accounting and payroll, with Mobile Money built in.">
+<title>NkabomERP Business management, built for African businesses</title>
+<meta name="description" content="NkabomERP is business management software built for African businesses — sales, inventory, and accounting, with Mobile Money built in.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,382 +33,361 @@
   :root{
     --navy:#0E2A47;
     --navy-deep:#081B30;
-    --navy-ink:#06152A;
     --green:#159A56;
     --green-deep:#0F7A43;
-    --green-bright:#2BC774;
-    --green-tint:#EAF5EE;
+    --green-tint:#EFF6F1;
     --gold:#E4B94E;
-    --gold-tint:#FBF3DF;
     --paper:#FAF9F5;
     --panel:#FFFFFF;
     --ink:#16181C;
     --ink-soft:#4A5058;
     --ink-faint:#7B818A;
-    --line:#E6E3DB;
-    --max:1200px;
-    --radius:14px;
-    --shadow-sm:0 1px 2px rgba(14,42,71,.06),0 2px 6px rgba(14,42,71,.05);
-    --shadow-md:0 18px 40px -22px rgba(14,42,71,.35);
-    --shadow-lg:0 40px 80px -30px rgba(6,21,42,.6);
+    --line:#E3E0D8;
+    --max:1250px;
+    --max-narrow:640px;
+    --radius:10px;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;scroll-padding-top:84px;}
+  html{scroll-behavior:smooth;}
   body{
-    margin:0;background:var(--paper);color:var(--ink);
-    font-family:'Inter',system-ui,sans-serif;line-height:1.6;
-    -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
   }
-  img{max-width:100%;}
-  h1,h2,h3{font-family:'Sora',sans-serif;color:var(--navy);margin:0;letter-spacing:-0.02em;}
+  h1,h2,h3{
+    font-family:'Sora',sans-serif;
+    color:var(--navy);
+    margin:0;
+    letter-spacing:-0.015em;
+  }
   a{color:inherit;}
   .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
-
-  /* ---------- buttons ---------- */
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;gap:9px;
-    padding:14px 24px;border-radius:10px;font-weight:600;font-size:.98rem;
-    text-decoration:none;border:1.5px solid transparent;
-    transition:transform .14s ease, box-shadow .14s ease, background .14s ease, border-color .14s ease;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
-  }
-  .btn svg{flex:none;}
-  .btn-primary{background:var(--green);color:#fff;box-shadow:0 8px 20px -10px rgba(21,154,86,.8);}
-  .btn-primary:hover{background:var(--green-deep);transform:translateY(-1px);}
-  .btn-ghost{color:#fff;border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.04);}
-  .btn-ghost:hover{border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.08);}
-  .btn-outline{color:var(--navy);border-color:var(--line);background:var(--panel);}
-  .btn-outline:hover{border-color:var(--navy);}
-  .btn-block{width:100%;}
+  .narrow{max-width:var(--max-narrow);}
 
   /* ---------- header ---------- */
-  header{position:sticky;top:0;z-index:100;isolation:isolate;transition:box-shadow .2s ease;}
+  /* FIX: z-index raised to 100 so nothing in the page stacks above the toggle */
+  header{padding:26px 0;position:sticky;top:0;z-index:100;isolation:isolate;}
   header::before{
-    content:"";position:absolute;inset:0;z-index:-1;
-    background:rgba(8,27,48,.86);
-    backdrop-filter:saturate(160%) blur(10px);-webkit-backdrop-filter:saturate(160%) blur(10px);
-    border-bottom:1px solid rgba(255,255,255,.08);
+    content:"";position:absolute;inset:0;
+    background:rgba(250,249,245,0.92);
+    backdrop-filter:saturate(140%) blur(6px);
+    z-index:-1;
   }
-  header.scrolled{box-shadow:0 10px 30px -18px rgba(0,0,0,.6);}
-  header .wrap{display:flex;align-items:center;justify-content:space-between;gap:24px;height:72px;position:relative;}
-  .brand{display:flex;align-items:center;gap:11px;text-decoration:none;}
-  .brand img.logo{width:38px;height:38px;object-fit:contain;flex:none;background:#fff;border-radius:9px;padding:4px;}
-  .brand span{font-family:'Sora',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;}
-  header nav{display:flex;align-items:center;gap:4px;}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;position:relative;}
+  .brand{display:flex;align-items:center;gap:11px;}
+  .brand img.logo{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+    flex:none;
+  }
+  .brand span{font-family:'Sora',sans-serif;font-weight:700;font-size:1.08rem;color:var(--navy);}
   header nav a{
-    font-size:.92rem;font-weight:500;color:rgba(255,255,255,.75);
-    text-decoration:none;padding:9px 14px;border-radius:8px;
+    font-size:0.92rem;font-weight:600;color:var(--ink-soft);
+    text-decoration:none;padding:9px 16px;border-radius:7px;
     transition:color .15s ease, background .15s ease;
   }
-  header nav a:hover{color:#fff;background:rgba(255,255,255,.07);}
-  header nav a.active{color:#fff;background:rgba(255,255,255,.1);}
-  header nav a.nav-cta{background:var(--green);color:#fff;margin-left:10px;font-weight:600;}
-  header nav a.nav-cta:hover{background:var(--green-deep);}
+  header nav a:hover{color:var(--navy);background:var(--green-tint);}
+  header nav a.active{color:var(--green-deep);background:var(--green-tint);}
 
+  /* FIX: z-index:200 keeps toggle above nav drawer and backdrop at all times
+          touch-action:manipulation kills the 300ms iOS tap delay
+          -webkit-tap-highlight-color removes the grey flash that can swallow the tap */
   .menu-toggle{
-    display:none;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);
-    border-radius:10px;width:44px;height:44px;align-items:center;justify-content:center;
-    cursor:pointer;flex-direction:column;gap:5px;position:relative;z-index:200;
-    touch-action:manipulation;-webkit-tap-highlight-color:transparent;
+    display:none;border:1px solid var(--line);background:var(--panel);color:var(--navy);
+    border-radius:8px;width:44px;height:44px;align-items:center;justify-content:center;
+    cursor:pointer;flex-direction:column;gap:5px;
+    position:relative;z-index:200;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
   }
-  .menu-toggle .bar{width:18px;height:2px;background:#fff;border-radius:2px;transition:transform .2s ease, opacity .2s ease;pointer-events:none;}
+  /* FIX: pointer-events:none on bar spans — button receives the tap, not the child spans */
+  .menu-toggle .bar{width:18px;height:2px;background:var(--navy);border-radius:2px;transition:transform .2s ease, opacity .2s ease;pointer-events:none;}
   header.nav-open .menu-toggle .bar:nth-child(1){transform:translateY(7px) rotate(45deg);}
   header.nav-open .menu-toggle .bar:nth-child(2){opacity:0;}
   header.nav-open .menu-toggle .bar:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-  .sidebar-backdrop{display:none;}
-  body.nav-locked{overflow:hidden;}
 
-  @media (max-width:900px){
+  /* FIX: backdrop is now styled as a div (not a button) — z-index:140 sits
+          above page content but below the nav drawer(150) and toggle(200) */
+  .sidebar-backdrop{display:none;}
+  .nav-mobile-cta{display:none;}
+
+  @media (max-width:680px){
+    header{padding:16px 0;}
     .menu-toggle{display:inline-flex;}
+    /* FIX: nav drawer at z-index:150 — above backdrop, below toggle */
     header nav{
-      position:fixed;z-index:150;top:0;right:0;bottom:0;width:min(84vw,320px);
-      padding:92px 22px 28px;background:var(--navy-deep);
-      box-shadow:-20px 0 40px rgba(0,0,0,.35);
-      transform:translateX(100%);transition:transform .22s ease;
-      flex-direction:column;align-items:stretch;gap:2px;overflow-y:auto;
+      position:fixed;z-index:150;top:0;right:0;bottom:0;width:min(82vw,320px);
+      padding:88px 24px 28px;background:var(--panel);
+      box-shadow:-16px 0 36px rgba(8,27,48,0.18);
+      transform:translateX(100%);transition:transform .2s ease;
+      display:flex;flex-direction:column;
+      overflow-y:auto;
     }
     header.nav-open nav{transform:translateX(0);}
-    header nav a{padding:14px 12px;font-size:1rem;}
-    header nav a.nav-cta{margin:auto 0 0;text-align:center;padding:14px;}
+    header nav a{display:block;padding:14px 12px;font-size:1rem;}
+    /* FIX: backdrop as block-level div, z-index:140, pointer-events:none until open */
     .sidebar-backdrop{
-      display:block;position:fixed;inset:0;z-index:140;background:rgba(3,10,20,.5);
+      display:block;position:fixed;inset:0;z-index:140;background:rgba(8,27,48,0.34);
       opacity:0;pointer-events:none;transition:opacity .2s ease;
     }
     header.nav-open .sidebar-backdrop{opacity:1;pointer-events:auto;}
+    .nav-mobile-cta{
+      display:flex;align-items:center;justify-content:center;gap:8px;
+      margin-top:auto;padding:13px 16px;border-radius:8px;
+      background:var(--green);color:#fff;font-weight:600;font-size:0.94rem;
+      text-decoration:none;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .wrap{padding:0 20px;}
+    .hero{padding:44px 0 40px;}
+    .hero h1{font-size:2rem;}
+    .hero p.lede{font-size:1rem;}
+    .cta-row{gap:10px;margin-top:24px;}
+    .btn{padding:12px 16px;font-size:.92rem;}
+    section{padding:40px 0;}
+    .hero-panel{padding:10px;border-radius:14px;}
+    .browser-chrome.crop{height:260px;}
+    .browser-chrome.crop .shot{height:260px;}
   }
 
-  /* ---------- kente stripe ---------- */
+  @media (max-width:420px){
+    .hero h1{font-size:1.7rem;}
+    .hero-badge{font-size:0.78rem;padding:6px 12px;}
+    .cta-row{flex-direction:column;align-items:stretch;}
+    .cta-row .btn{justify-content:center;}
+    .browser-chrome.crop{height:200px;}
+    .browser-chrome.crop .shot{height:200px;}
+  }
+
+  body.nav-locked{overflow:hidden;}
+
+  @media (prefers-reduced-motion: reduce){
+    .menu-toggle .bar,.sidebar-backdrop,header nav{transition:none;}
+  }
+
   .stripe{
-    height:6px;width:100%;
-    background:repeating-linear-gradient(90deg,
-      var(--gold) 0 34px, var(--green) 34px 62px, var(--navy) 62px 74px, #C9472F 74px 82px, var(--navy) 82px 94px);
+    height:5px;width:100%;
+    background:repeating-linear-gradient(
+      90deg,
+      var(--navy) 0 40px,
+      var(--green) 40px 70px,
+      var(--gold) 70px 84px,
+      var(--paper) 84px 96px
+    );
   }
 
   /* ---------- hero ---------- */
-  .hero{
-    position:relative;overflow:hidden;color:#fff;
-    background:
-      radial-gradient(900px 500px at 85% -10%, rgba(228,185,78,.20), transparent 60%),
-      radial-gradient(700px 500px at -10% 110%, rgba(21,154,86,.28), transparent 60%),
-      linear-gradient(160deg, var(--navy) 0%, var(--navy-deep) 55%, var(--navy-ink) 100%);
-    margin-top:-72px;padding:152px 0 96px;
-  }
-  .hero::after{
-    content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
-    background-image:linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-    background-size:44px 44px;
-    -webkit-mask-image:radial-gradient(ellipse at 50% 30%, #000 30%, transparent 75%);
-            mask-image:radial-gradient(ellipse at 50% 30%, #000 30%, transparent 75%);
-  }
-  .hero .wrap{position:relative;z-index:1;}
-  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:64px;align-items:center;}
+  .hero{padding:76px 0 64px;}
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;}
   .hero-badge{
-    display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 8px;border-radius:999px;
-    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
-    font-weight:500;font-size:.85rem;color:rgba(255,255,255,.88);margin-bottom:24px;
+    display:inline-flex;align-items:center;gap:8px;
+    padding:7px 14px;border-radius:999px;
+    background:var(--green-tint);color:var(--green-deep);
+    font-weight:600;font-size:0.82rem;margin-bottom:18px;
   }
-  .hero-badge b{background:var(--gold);color:var(--navy-ink);font-weight:700;font-size:.72rem;padding:3px 9px;border-radius:999px;letter-spacing:.02em;}
-  .hero h1{color:#fff;font-size:clamp(2.2rem, 4.6vw, 3.6rem);line-height:1.06;font-weight:800;letter-spacing:-0.03em;}
-  .hero h1 .hl{
-    background:linear-gradient(90deg, var(--gold), #F4D88B);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
+  .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex:none;}
+  .hero h1{font-size:2.75rem;line-height:1.12;max-width:13ch;font-weight:700;}
+  .hero p.lede{
+    margin:22px 0 0;
+    font-size:1.14rem;
+    color:var(--ink-soft);
+    max-width:42ch;
   }
-  .hero p.lede{margin:22px 0 0;font-size:1.15rem;color:rgba(255,255,255,.74);max-width:46ch;}
-  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px;}
-  .hero-points{display:flex;flex-wrap:wrap;gap:10px 22px;margin:30px 0 0;padding:0;list-style:none;}
-  .hero-points li{display:flex;align-items:center;gap:8px;font-size:.9rem;color:rgba(255,255,255,.75);}
-  .hero-points svg{color:var(--green-bright);flex:none;}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;
+    padding:14px 24px;border-radius:8px;
+    font-weight:600;font-size:0.98rem;
+    text-decoration:none;
+    transition:transform .12s ease, box-shadow .12s ease, background .12s ease;
+  }
+  .btn svg{flex:none;}
+  .btn-primary{background:var(--green);color:#fff;box-shadow:0 1px 0 rgba(0,0,0,0.06);}
+  .btn-primary:hover{background:var(--green-deep);transform:translateY(-1px);}
+  .btn-secondary{background:transparent;color:var(--navy);border:1.5px solid var(--line);}
+  .btn-secondary:hover{border-color:var(--navy);}
+  .hero-trust{
+    display:flex;align-items:center;gap:10px;margin-top:22px;
+    font-size:0.87rem;color:var(--ink-faint);
+  }
+  .hero-trust svg{flex:none;color:var(--green-deep);}
 
-  .hero-visual{position:relative;}
-  .browser-chrome{position:relative;background:#fff;border-radius:12px;overflow:hidden;}
-  .browser-chrome .bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:#EFEEE9;border-bottom:1px solid #E0DED5;}
-  .browser-chrome .bar .dot{width:10px;height:10px;border-radius:50%;}
-  .browser-chrome .bar .dot:nth-child(1){background:#EC6A5E;}
-  .browser-chrome .bar .dot:nth-child(2){background:#F4BF4F;}
-  .browser-chrome .bar .dot:nth-child(3){background:#61C554;}
-  .browser-chrome .bar .url{
-    margin-left:12px;flex:1;max-width:260px;height:22px;border-radius:6px;background:#fff;border:1px solid #E0DED5;
-    font-size:.72rem;color:var(--ink-faint);display:flex;align-items:center;padding:0 10px;white-space:nowrap;overflow:hidden;
+  .hero-panel{
+    background:linear-gradient(155deg, var(--navy) 0%, var(--navy-deep) 100%);
+    border-radius:18px;
+    padding:14px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 20px 40px -18px rgba(8,27,48,0.55);
   }
+  .hero-panel::before{
+    content:"";position:absolute;top:-40%;right:-30%;width:70%;height:80%;
+    background:radial-gradient(closest-side, rgba(228,185,78,0.22), transparent 70%);
+    pointer-events:none;
+  }
+  .browser-chrome{
+    position:relative;
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 10px 24px -12px rgba(8,27,48,0.4);
+  }
+  .browser-chrome .bar{
+    display:flex;align-items:center;gap:8px;
+    padding:11px 14px;background:#EDECE7;border-bottom:1px solid #DEDCD3;
+  }
+  .browser-chrome .bar .dot{width:9px;height:9px;border-radius:50%;background:#D8D5CC;}
+  .browser-chrome .bar .dot:nth-child(1){background:#E8877E;}
+  .browser-chrome .bar .dot:nth-child(2){background:var(--gold);}
+  .browser-chrome .bar .dot:nth-child(3){background:var(--green);}
   .browser-chrome .shot{display:block;width:100%;height:auto;}
-  .hero-visual .browser-chrome{box-shadow:var(--shadow-lg);transform:perspective(1600px) rotateY(-6deg) rotateX(2deg);transform-origin:left center;}
-  .hero-visual .browser-chrome .shot{height:400px;object-fit:cover;object-position:top left;}
+  .browser-chrome.crop{height:420px;}
+  .browser-chrome.crop .shot{height:420px;object-fit:cover;object-position:top left;}
 
-  .float-card{
-    position:absolute;z-index:2;background:#fff;color:var(--ink);border-radius:12px;padding:12px 14px;
-    box-shadow:0 20px 40px -16px rgba(0,0,0,.45);display:flex;align-items:center;gap:12px;font-size:.84rem;
+  @media (max-width:800px){
+    .hero-grid{grid-template-columns:1fr;gap:36px;}
+    .hero h1{max-width:none;font-size:2.2rem;}
   }
-  .float-card .ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex:none;}
-  .float-card strong{display:block;font-size:.88rem;color:var(--navy);}
-  .float-card span{color:var(--ink-faint);font-size:.78rem;}
-  .float-card.one{left:-28px;bottom:42px;}
-  .float-card.one .ic{background:var(--green-tint);color:var(--green-deep);}
-  .float-card.two{right:-18px;top:-20px;}
-  .float-card.two .ic{background:var(--gold-tint);color:#9A7414;}
-
-  /* ---------- trust strip ---------- */
-  .trust{background:var(--panel);border-bottom:1px solid var(--line);}
-  .trust .wrap{display:flex;align-items:center;gap:28px;padding-top:22px;padding-bottom:22px;flex-wrap:wrap;justify-content:center;}
-  .trust .label{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-faint);}
-  .trust ul{display:flex;flex-wrap:wrap;gap:10px 12px;margin:0;padding:0;list-style:none;justify-content:center;}
-  .trust li{
-    display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;
-    border:1px solid var(--line);background:var(--paper);font-weight:600;font-size:.86rem;color:var(--navy);
-  }
-  .trust li .sw{width:10px;height:10px;border-radius:3px;flex:none;}
 
   /* ---------- sections ---------- */
-  section{padding:96px 0;}
-  section.alt{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .section-head{max-width:640px;margin-bottom:52px;}
-  .section-head.center{margin-left:auto;margin-right:auto;text-align:center;}
-  .eyebrow{
-    display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;
-    text-transform:uppercase;letter-spacing:.09em;color:var(--green-deep);margin-bottom:14px;
-  }
-  .eyebrow::before{content:"";width:18px;height:2px;background:var(--gold);border-radius:2px;}
-  .section-head h2{font-size:clamp(1.7rem, 3vw, 2.4rem);line-height:1.15;font-weight:700;}
-  .section-head p{color:var(--ink-soft);margin:16px 0 0;font-size:1.06rem;}
+  section{padding:60px 0;border-top:1px solid var(--line);}
+  .eyebrow-label{font-size:0.85rem;font-weight:600;color:var(--green-deep);margin-bottom:10px;}
+  .section-label{font-size:1.65rem;max-width:22ch;}
+  .section-sub{color:var(--ink-soft);max-width:52ch;margin:14px 0 0;font-size:1.02rem;}
 
   /* ---------- feature cards ---------- */
-  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+    margin-top:36px;
+  }
   .feature{
-    background:var(--panel);padding:30px 28px;border:1px solid var(--line);border-radius:var(--radius);
-    box-shadow:var(--shadow-sm);transition:box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+    background:var(--panel);
+    padding:28px 26px;
+    border:1px solid var(--line);
+    border-radius:14px;
+    border-top:3px solid var(--accent, var(--green));
+    transition:box-shadow .15s ease, transform .15s ease;
   }
-  .feature:hover{box-shadow:var(--shadow-md);transform:translateY(-3px);border-color:#D6E8DC;}
+  .feature:hover{box-shadow:0 14px 28px -18px rgba(14,42,71,0.25);transform:translateY(-2px);}
   .feature .icon{
-    width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;
-    background:var(--green-tint);color:var(--green-deep);margin-bottom:20px;
+    width:44px;height:44px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    background:var(--accent-tint, var(--green-tint));color:var(--accent, var(--green-deep));
+    margin-bottom:18px;
   }
-  .feature.gold .icon{background:var(--gold-tint);color:#9A7414;}
-  .feature.navy .icon{background:#E7EDF4;color:var(--navy);}
-  .feature h3{font-size:1.1rem;font-weight:700;margin:0 0 8px;}
-  .feature p{margin:0;color:var(--ink-soft);font-size:.97rem;}
+  .feature h3{font-size:1.08rem;font-weight:700;margin:0 0 8px;}
+  .feature p{margin:0;color:var(--ink-soft);font-size:0.97rem;line-height:1.62;}
 
-  /* ---------- how it works ---------- */
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;counter-reset:step;position:relative;}
-  .step{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:32px 28px 30px;}
-  .step .num{
-    width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:700;margin-bottom:20px;
-    box-shadow:0 0 0 6px var(--panel), 0 0 0 7px var(--line);
+  @media (max-width:680px){
+    .feature-grid{grid-template-columns:1fr;}
   }
-  .step:nth-child(2) .num{background:var(--green);}
-  .step:nth-child(3) .num{background:var(--gold);color:var(--navy-ink);}
-  .step h3{font-size:1.1rem;margin-bottom:8px;}
-  .step p{margin:0;color:var(--ink-soft);font-size:.97rem;}
-  .step code{font-size:.86rem;background:var(--green-tint);color:var(--green-deep);padding:2px 7px;border-radius:5px;}
 
-  /* ---------- capabilities ---------- */
-  .fgroups{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-  .fgroup{background:var(--panel);padding:24px;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);}
-  .fgroup h3{font-size:1rem;font-weight:700;margin:0 0 14px;display:flex;align-items:center;gap:10px;}
-  .fgroup h3::before{content:"";width:8px;height:22px;border-radius:3px;background:linear-gradient(var(--gold),var(--green));flex:none;}
+  /* ---------- capability groups ---------- */
+  .fgroups{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-top:36px;
+  }
+  .fgroup{
+    background:var(--panel);
+    padding:20px;
+    border:1px solid var(--line);
+    border-radius:12px;
+  }
+  .fgroup h3{
+    font-size:1rem;
+    font-weight:700;
+    color:var(--navy);
+    margin:0 0 12px;
+    padding-bottom:10px;
+    border-bottom:2px solid var(--gold);
+  }
   .fgroup ul{list-style:none;margin:0;padding:0;}
-  .fgroup li{position:relative;padding-left:24px;margin-bottom:9px;color:var(--ink);font-size:.92rem;line-height:1.45;}
+  .fgroup li{
+    position:relative;
+    padding-left:17px;
+    margin-bottom:8px;
+    color:var(--ink);
+    font-size:0.9rem;
+    line-height:1.45;
+  }
   .fgroup li:last-child{margin-bottom:0;}
   .fgroup li::before{
-    content:"";position:absolute;left:0;top:.2em;width:15px;height:15px;border-radius:50%;
-    background:var(--green-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F7A43' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12l4 4 8-8'/%3E%3C/svg%3E") center/9px no-repeat;
+    content:"";position:absolute;left:0;top:0.62em;
+    width:7px;height:7px;border-radius:2px;background:var(--green);
+  }
+  @media (max-width:900px){
+    .fgroups{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (max-width:560px){
+    .fgroups{grid-template-columns:1fr;}
   }
 
-  /* ---------- screenshots ---------- */
-  .screens-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-  .screen-card .browser-chrome{border:1px solid var(--line);box-shadow:var(--shadow-md);}
-  .screen-card .browser-chrome .shot{height:210px;object-fit:cover;object-position:top left;transition:transform .4s ease;}
-  .screen-card:hover .browser-chrome .shot{transform:scale(1.03);}
-  .screen-card h3{font-size:1rem;margin:18px 2px 4px;}
-  .screen-caption{margin:0 2px;color:var(--ink-soft);font-size:.93rem;}
+  /* ---------- product screenshots ---------- */
+  .screens-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+    margin-top:36px;
+  }
+  .screen-card{display:flex;flex-direction:column;}
+  .screen-card .browser-chrome{
+    border:1px solid var(--line);
+    box-shadow:0 14px 28px -18px rgba(14,42,71,0.25);
+    height:190px;
+  }
+  .screen-card .browser-chrome .shot{height:190px;object-fit:cover;object-position:top left;}
+  .screen-caption{margin:14px 2px 0;color:var(--ink-soft);font-size:0.93rem;line-height:1.5;}
 
-  /* ---------- pricing ---------- */
-  .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:stretch;}
-  .plan{
-    position:relative;display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);
-    border-radius:18px;padding:32px 28px;box-shadow:var(--shadow-sm);
+  @media (max-width:860px){
+    .screens-grid{grid-template-columns:1fr;}
+    .screen-card .browser-chrome{height:260px;}
+    .screen-card .browser-chrome .shot{height:260px;}
   }
-  .plan.featured{
-    background:linear-gradient(165deg, var(--navy) 0%, var(--navy-deep) 100%);color:#fff;border-color:transparent;
-    box-shadow:var(--shadow-lg);transform:translateY(-10px);
-  }
-  .plan .tag{
-    position:absolute;top:-13px;left:28px;background:var(--gold);color:var(--navy-ink);
-    font-size:.74rem;font-weight:700;padding:5px 12px;border-radius:999px;letter-spacing:.03em;
-  }
-  .plan h3{font-size:1.15rem;}
-  .plan.featured h3{color:#fff;}
-  .plan .for{font-size:.92rem;color:var(--ink-soft);margin:6px 0 22px;}
-  .plan.featured .for{color:rgba(255,255,255,.7);}
-  .plan .price{font-family:'Sora',sans-serif;font-size:2.4rem;font-weight:800;color:var(--navy);letter-spacing:-0.03em;line-height:1;}
-  .plan.featured .price{color:#fff;}
-  .plan .price small{font-family:'Inter',sans-serif;font-size:.9rem;font-weight:500;color:var(--ink-faint);letter-spacing:0;}
-  .plan.featured .price small{color:rgba(255,255,255,.6);}
-  .plan ul{list-style:none;margin:26px 0 30px;padding:24px 0 0;border-top:1px solid var(--line);flex:1;}
-  .plan.featured ul{border-color:rgba(255,255,255,.14);}
-  .plan li{display:flex;gap:10px;margin-bottom:11px;font-size:.93rem;}
-  .plan li svg{flex:none;margin-top:3px;color:var(--green);}
-  .plan.featured li svg{color:var(--green-bright);}
-  .pricing-note{text-align:center;color:var(--ink-faint);font-size:.9rem;margin:34px 0 0;}
-
-  /* ---------- FAQ ---------- */
-  .faq{max-width:780px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
-  .faq details{background:var(--panel);border:1px solid var(--line);border-radius:12px;transition:border-color .15s ease, box-shadow .15s ease;}
-  .faq details[open]{border-color:#CFE3D6;box-shadow:var(--shadow-sm);}
-  .faq summary{
-    list-style:none;cursor:pointer;padding:20px 22px;font-weight:600;color:var(--navy);font-size:1rem;
-    display:flex;justify-content:space-between;align-items:center;gap:16px;
-    -webkit-tap-highlight-color:transparent;
-  }
-  .faq summary::-webkit-details-marker{display:none;}
-  .faq summary::after{
-    content:"";width:24px;height:24px;flex:none;border-radius:50%;background:var(--green-tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F7A43' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/12px no-repeat;
-    transition:transform .2s ease;
-  }
-  .faq details[open] summary::after{transform:rotate(45deg);}
-  .faq .answer{padding:0 22px 20px;color:var(--ink-soft);font-size:.97rem;}
-  .faq .answer p{margin:0;}
-
-  /* ---------- CTA band ---------- */
-  .cta-band{padding:0 0 96px;}
-  .cta-box{
-    position:relative;overflow:hidden;border-radius:24px;padding:64px 56px;color:#fff;
-    background:
-      radial-gradient(600px 300px at 100% 0%, rgba(228,185,78,.25), transparent 60%),
-      linear-gradient(135deg, var(--green-deep) 0%, var(--navy) 70%);
-    display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;
-  }
-  .cta-box h2{color:#fff;font-size:clamp(1.6rem, 3vw, 2.3rem);line-height:1.15;}
-  .cta-box p{color:rgba(255,255,255,.78);margin:14px 0 0;font-size:1.04rem;}
-  .cta-box .cta-row{margin:0;justify-content:flex-end;}
-  .cta-box .btn-primary{background:#fff;color:var(--navy);box-shadow:none;}
-  .cta-box .btn-primary:hover{background:var(--gold-tint);}
 
   /* ---------- contact ---------- */
-  .contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px;}
   .contact-card{
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px;
-    display:flex;flex-direction:column;gap:16px;text-decoration:none;box-shadow:var(--shadow-sm);
-    transition:box-shadow .2s ease, transform .2s ease;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px;
+    display:flex;flex-direction:column;gap:14px;
   }
-  .contact-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
-  .contact-card .ic{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;background:var(--green-tint);color:var(--green-deep);}
-  .contact-card .label{font-weight:600;color:var(--ink-faint);font-size:.84rem;}
-  .contact-card .value{color:var(--navy);font-size:1.05rem;font-weight:600;margin-top:2px;word-break:break-word;}
-  .contact-card .go{font-weight:600;color:var(--green-deep);font-size:.9rem;margin-top:auto;}
-
-  /* ---------- footer ---------- */
-  footer{background:var(--navy-ink);color:rgba(255,255,255,.65);padding:56px 0 40px;}
-  .foot-grid{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.08);}
-  footer .brand span{color:#fff;}
-  footer .tagline{margin:14px 0 0;max-width:36ch;font-size:.92rem;}
-  footer .links{display:flex;gap:48px;flex-wrap:wrap;}
-  footer .links h4{color:#fff;font-size:.86rem;margin:0 0 12px;font-family:'Sora',sans-serif;}
-  footer .links a{display:block;text-decoration:none;font-size:.9rem;margin-bottom:8px;}
-  footer .links a:hover{color:#fff;}
-  .foot-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-top:24px;font-size:.84rem;}
-
-  /* ---------- reveal on scroll ---------- */
-  .js .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
-  .js .reveal.in{opacity:1;transform:none;}
-
-  :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px;}
-
-  /* ---------- responsive ---------- */
-  @media (max-width:1000px){
-    .hero-grid{grid-template-columns:1fr;gap:56px;}
-    .hero-visual{max-width:640px;}
-    .hero-visual .browser-chrome{transform:none;}
-    .feature-grid,.fgroups{grid-template-columns:repeat(2,1fr);}
-    .pricing{grid-template-columns:1fr;max-width:480px;margin:0 auto;}
-    .plan.featured{transform:none;}
+  .contact-card .label{font-weight:600;color:var(--navy);font-size:0.95rem;}
+  .contact-card .value{color:var(--ink-soft);font-size:1.02rem;}
+  .contact-card a.chat{
+    align-self:flex-start;
+    font-weight:600;color:var(--green-deep);text-decoration:none;font-size:0.92rem;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .contact-card a.chat:hover{text-decoration:underline;}
+  @media (max-width:860px){
     .contact-grid{grid-template-columns:repeat(2,1fr);}
-    .cta-box{grid-template-columns:1fr;padding:48px 36px;}
-    .cta-box .cta-row{justify-content:flex-start;}
-  }
-  @media (max-width:760px){
-    .wrap{padding:0 20px;}
-    header .wrap{height:64px;}
-    .hero{margin-top:-64px;padding:112px 0 72px;}
-    .hero p.lede{font-size:1.04rem;}
-    section{padding:68px 0;}
-    .section-head{margin-bottom:36px;}
-    .feature-grid,.fgroups,.steps,.screens-grid{grid-template-columns:1fr;}
-    .hero-visual .browser-chrome .shot{height:240px;}
-    .float-card.one{left:-6px;bottom:-22px;}
-    .float-card.two{right:-6px;top:-22px;}
-    .cta-band{padding-bottom:68px;}
   }
   @media (max-width:520px){
-    .cta-row{flex-direction:column;align-items:stretch;}
     .contact-grid{grid-template-columns:1fr;}
-    .float-card{font-size:.78rem;padding:10px 12px;}
-    .float-card .ic{width:30px;height:30px;}
-    .cta-box{padding:40px 24px;border-radius:18px;}
+    .contact-card{padding:18px;}
   }
+
+  /* ---------- footer ---------- */
+  footer{padding:40px 0 48px;border-top:1px solid var(--line);}
+  footer .wrap{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;}
+  footer p{color:var(--ink-faint);font-size:0.86rem;margin:0;}
+
+  :focus-visible{outline:2px solid var(--green-deep);outline-offset:2px;}
+
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto;}
-    *,*::before,*::after{transition:none !important;}
-    .js .reveal{opacity:1;transform:none;}
+    .btn{transition:none;}
   }
 </style>
 </head>
@@ -413,395 +395,331 @@
 
 <header>
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="NkabomERP home">
-      <img src="asset/erpnext-logo-blue.png" alt="" class="logo">
+    <div class="brand">
+      <img src="asset/erpnext-logo-blue.png" alt="NkabomERP Logo" class="logo">
       <span>NkabomERP</span>
-    </a>
+    </div>
     <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-nav">
       <span class="bar"></span><span class="bar"></span><span class="bar"></span>
     </button>
     <nav id="site-nav" aria-label="Main navigation">
-      <a href="#features" data-section="features">Features</a>
-      <a href="#how" data-section="how">How it works</a>
-      <a href="#capabilities" data-section="capabilities">Industries</a>
-      <a href="#pricing" data-section="pricing">Pricing</a>
-      <a href="#faq" data-section="faq">FAQ</a>
-      <a class="nav-cta" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Get started</a>
+      <a href="#features" data-section="features">What you can do</a>
+      <a href="#capabilities" data-section="capabilities">Capabilities</a>
+      <a href="#screens" data-section="screens">See it in action</a>
+      <a href="#contact" data-section="contact">Get in touch</a>
+      <a class="nav-mobile-cta" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
     </nav>
+    <!-- FIX: changed from <button> to <div> — a competing button element was stealing tap events
+              before the menu-toggle could receive them on mobile browsers -->
     <div class="sidebar-backdrop" aria-hidden="true"></div>
   </div>
 </header>
+<div class="stripe"></div>
 
-<main id="top">
+<div class="wrap">
 
-  <!-- ================= HERO ================= -->
-  <div class="hero">
-    <div class="wrap">
-      <div class="hero-grid">
-        <div>
-          <div class="hero-badge"><b>NEW</b> Mobile Money built in from day one</div>
-          <h1>Run your whole business from <span class="hl">one system.</span></h1>
-          <p class="lede">Sales, stock, accounting, payroll and Mobile Money — together in one login. Built for African businesses, set up for you by our team.</p>
-          <div class="cta-row">
-            <a class="btn btn-primary" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.35 5.08L2 22l5.05-1.32C8.5 21.5 10.2 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.18-1.77 1.24-.45.06-1.02.08-1.65-.1-.38-.12-.87-.28-1.5-.55-2.64-1.14-4.36-3.78-4.5-3.96-.13-.18-1.08-1.44-1.08-2.75s.68-1.95.92-2.22c.24-.26.53-.33.7-.33h.5c.16 0 .38-.06.6.46.22.53.75 1.85.82 1.98.07.13.11.29.02.47-.09.18-.14.29-.27.44-.13.16-.28.35-.4.47-.13.13-.27.28-.11.55.15.26.68 1.13 1.47 1.83 1.01.9 1.86 1.18 2.13 1.31.27.13.42.11.58-.07.16-.18.68-.79.86-1.06.18-.27.36-.22.6-.13.24.09 1.55.73 1.82.87.27.13.45.2.51.31.07.11.07.64-.15 1.26z"/></svg>
-              Chat on WhatsApp
-            </a>
-            <a class="btn btn-ghost" href="#pricing">See pricing</a>
-          </div>
-          <ul class="hero-points">
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Most businesses live within a day</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Nothing to install</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>Your own business address</li>
-          </ul>
+  <section class="hero" style="border-top:none;">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge"><span class="dot"></span> Built for African businesses</div>
+        <h1>Run your business without the guesswork.</h1>
+        <p class="lede">Business management, built for African businesses. Track sales, manage stock, and get paid with Mobile Money built in from day one.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.35 5.08L2 22l5.05-1.32C8.5 21.5 10.2 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.18-1.77 1.24-.45.06-1.02.08-1.65-.1-.38-.12-.87-.28-1.5-.55-2.64-1.14-4.36-3.78-4.5-3.96-.13-.18-1.08-1.44-1.08-2.75s.68-1.95.92-2.22c.24-.26.53-.33.7-.33h.5c.16 0 .38-.06.6.46.22.53.75 1.85.82 1.98.07.13.11.29.02.47-.09.18-.14.29-.27.44-.13.16-.28.35-.4.47-.13.13-.27.28-.11.55.15.26.68 1.13 1.47 1.83 1.01.9 1.86 1.18 2.13 1.31.27.13.42.11.58-.07.16-.18.68-.79.86-1.06.18-.27.36-.22.6-.13.24.09 1.55.73 1.82.87.27.13.45.2.51.31.07.11.07.64-.15 1.26z"/></svg>
+            Chat on WhatsApp
+          </a>
+          <a class="btn btn-secondary" href="tel:+233552566040">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call us
+          </a>
+          <a class="btn btn-secondary" href="mailto:nkabomerp@gmail.com">Email us</a>
         </div>
+        <div class="hero-trust">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          Most businesses are live within a day
+        </div>
+      </div>
 
-        <div class="hero-visual">
-          <div class="float-card two" aria-hidden="true">
-            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div>
-            <div><strong>Low stock alert</strong><span>Reorder before you run out</span></div>
-          </div>
-          <div class="browser-chrome">
-            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">yourbusiness.nkabomerp.cc</span></div>
-            <img class="shot" src="asset/screenshot-home.png" alt="NkabomERP home screen showing guided setup steps and shortcuts">
-          </div>
-          <div class="float-card one" aria-hidden="true">
-            <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg></div>
-            <div><strong>Mobile Money payment</strong><span>Recorded against the invoice</span></div>
-          </div>
+      <div class="hero-panel">
+        <div class="browser-chrome crop">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <img class="shot" src="asset/screenshot-home.png" alt="NkabomERP home screen showing guided setup steps and shortcuts">
         </div>
       </div>
     </div>
-  </div>
-  <div class="stripe" role="presentation"></div>
+  </section>
 
-  <!-- ================= TRUST STRIP ================= -->
-  <div class="trust">
-    <div class="wrap">
-      <span class="label">Works with</span>
+  <section id="features">
+    <div class="eyebrow-label">What you can do</div>
+    <h2 class="section-label">Everything to run day-to-day operations</h2>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14l2 2 4-4"/><rect x="3" y="4" width="18" height="16" rx="2"/></svg>
+        </div>
+        <h3>Sales &amp; invoicing</h3>
+        <p>Create invoices in seconds and know exactly who owes you what, at any time.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg>
+        </div>
+        <h3>Inventory that just works</h3>
+        <p>Always know what's in stock, what's running low, and what's selling.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <h3>Mobile Money built in</h3>
+        <p>MTN Mobile Money, Vodafone Cash, and AirtelTigo Money ready to accept from the start.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        </div>
+        <h3>Purchasing &amp; suppliers</h3>
+        <p>Order what you need and keep every supplier bill in one place, so nothing gets paid twice or missed.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
+        </div>
+        <h3>Reports &amp; insights</h3>
+        <p>See how the business is doing — sales, stock, and money owed without digging through paperwork.</p>
+      </div>
+
+      <div class="feature">
+        <div class="icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Accounts for your whole team</h3>
+        <p>Give staff their own logins, with control over what each person can see and do.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="capabilities">
+    <div class="eyebrow-label">One system, however your business runs</div>
+    <h2 class="section-label">Built for warehouses, pharmacies, retail &amp; more</h2>
+    <p class="section-sub">Most business software sells accounting, CRM, and inventory as separate add-ons. Here, it's all included one login, one system.</p>
+
+    <section id="capabilities">
+
+  <div class="eyebrow-label">One system, however your business runs</div>
+
+  <h2 class="section-label">
+    Built for supermarkets, malls, warehouses, pharmacies, retail &amp; more
+  </h2>
+
+  <p class="section-sub">
+    Most business software sells accounting, CRM, and inventory as separate add-ons.
+    Here, it's all included — one login, one system.
+  </p>
+
+  <div class="fgroups">
+
+    <div class="fgroup">
+      <h3>Supermarkets</h3>
       <ul>
-        <li><span class="sw" style="background:#FFCB05"></span>MTN Mobile Money</li>
-        <li><span class="sw" style="background:#E60000"></span>Telecel Cash</li>
-        <li><span class="sw" style="background:#1F4E9C"></span>AirtelTigo Money</li>
-        <li><span class="sw" style="background:var(--green)"></span>Daily backups</li>
-        <li><span class="sw" style="background:var(--navy)"></span>Secure HTTPS</li>
+        <li>Point of Sale for fast checkout</li>
+        <li>Barcode scanning</li>
+        <li>Large inventory management</li>
+        <li>Multiple departments &amp; sections</li>
+        <li>Price lists &amp; promotions</li>
+        <li>Low-stock alerts</li>
       </ul>
     </div>
+
+    <div class="fgroup">
+      <h3>Malls</h3>
+      <ul>
+        <li>Manage multiple stores and branches</li>
+        <li>Track sales across locations</li>
+        <li>Centralized inventory</li>
+        <li>Tenant and business management</li>
+        <li>Reports across all locations</li>
+        <li>Role-based staff access</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Retail &amp; checkout</h3>
+      <ul>
+        <li>Point of Sale for walk-in customers</li>
+        <li>Barcode scanning</li>
+        <li>Price lists &amp; discounts</li>
+        <li>Customer loyalty tracking</li>
+        <li>Multiple stores or branches</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Warehousing &amp; stock</h3>
+      <ul>
+        <li>Multi-warehouse inventory</li>
+        <li>Batch &amp; expiry date tracking</li>
+        <li>Serial number tracking</li>
+        <li>Stock transfers between locations</li>
+        <li>Low-stock reorder alerts</li>
+        <li>Stock reconciliation &amp; audits</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Money &amp; accounts</h3>
+      <ul>
+        <li>Invoicing &amp; billing</li>
+        <li>Mobile Money (MTN, Vodafone, AirtelTigo)</li>
+        <li>Expense tracking</li>
+        <li>Bank reconciliation</li>
+        <li>Multi-currency support</li>
+        <li>Profit &amp; loss, balance sheet reports</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Purchasing &amp; suppliers</h3>
+      <ul>
+        <li>Purchase orders</li>
+        <li>Supplier bills &amp; payments</li>
+        <li>Purchase requests</li>
+        <li>Landed cost tracking</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>People &amp; teams</h3>
+      <ul>
+        <li>Staff logins with permissions</li>
+        <li>Attendance &amp; leave tracking</li>
+        <li>Payroll</li>
+        <li>Employee records</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Customers &amp; growth</h3>
+      <ul>
+        <li>Customer &amp; lead management</li>
+        <li>Quotations</li>
+        <li>Support ticketing</li>
+        <li>Email &amp; notification templates</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Reports &amp; control</h3>
+      <ul>
+        <li>Real-time dashboards</li>
+        <li>Custom reports</li>
+        <li>Activity &amp; audit trail</li>
+        <li>Role-based access control</li>
+      </ul>
+    </div>
+
+    <div class="fgroup">
+      <h3>Projects &amp; assets</h3>
+      <ul>
+        <li>Project &amp; task tracking</li>
+        <li>Timesheets</li>
+        <li>Fixed asset management</li>
+        <li>Maintenance schedules</li>
+      </ul>
+    </div>
+
   </div>
 
-  <!-- ================= FEATURES ================= -->
-  <section id="features">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="eyebrow">What you can do</div>
-        <h2>Everything to run day-to-day operations</h2>
-        <p>Stop juggling notebooks, spreadsheets and separate apps. Every part of the business talks to every other part.</p>
+</section>
+
+  </section>
+
+  <section id="screens">
+    <div class="eyebrow-label">See it in action</div>
+    <h2 class="section-label">A look inside NkabomERP</h2>
+    <p class="section-sub">Real screens from the live system guided setup, sales pipeline, and integrations, all in one place.</p>
+
+    <div class="screens-grid">
+      <div class="screen-card">
+        <div class="browser-chrome">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <img class="shot" src="asset/screenshot-home.png" alt="NkabomERP home screen with guided setup checklist for items, customers, and invoices">
+        </div>
+        <p class="screen-caption">Guided setup get item, customer, and invoice records in place from day one.</p>
       </div>
-      <div class="feature-grid">
-        <div class="feature reveal">
-          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14l2 2 4-4"/><rect x="3" y="4" width="18" height="16" rx="2"/></svg></div>
-          <h3>Sales &amp; invoicing</h3>
-          <p>Create invoices in seconds and know exactly who owes you what, at any time.</p>
+
+      <div class="screen-card">
+        <div class="browser-chrome">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <img class="shot" src="asset/screenshot-crm.png" alt="NkabomERP CRM screen showing leads, opportunities, and sales pipeline shortcuts">
         </div>
-        <div class="feature gold reveal">
-          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg></div>
-          <h3>Inventory that just works</h3>
-          <p>Always know what's in stock, what's running low, and what's selling.</p>
+        <p class="screen-caption">CRM  track leads, opportunities, and the sales pipeline in one view.</p>
+      </div>
+
+      <div class="screen-card">
+        <div class="browser-chrome">
+          <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <img class="shot" src="asset/screenshot-integrations.png" alt="NkabomERP integrations screen listing authentication, backup, and payment connections">
         </div>
-        <div class="feature navy reveal">
-          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg></div>
-          <h3>Mobile Money built in</h3>
-          <p>MTN Mobile Money, Telecel Cash and AirtelTigo Money, ready from the start.</p>
-        </div>
-        <div class="feature navy reveal">
-          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
-          <h3>Purchasing &amp; suppliers</h3>
-          <p>Order what you need and keep every supplier bill in one place, so nothing is paid twice or missed.</p>
-        </div>
-        <div class="feature reveal">
-          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg></div>
-          <h3>Reports &amp; insights</h3>
-          <p>See sales, stock and money owed at a glance, without digging through paperwork.</p>
-        </div>
-        <div class="feature gold reveal">
-          <div class="icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-          <h3>Accounts for your whole team</h3>
-          <p>Give staff their own logins, with control over what each person can see and do.</p>
-        </div>
+        <p class="screen-caption">Integrations connect authentication, backups, and payment providers.</p>
       </div>
     </div>
   </section>
 
-  <!-- ================= HOW IT WORKS ================= -->
-  <section id="how" class="alt">
-    <div class="wrap">
-      <div class="section-head center reveal">
-        <div class="eyebrow">How it works</div>
-        <h2>Live in three simple steps</h2>
-        <p>No software to install and no technical setup on your side. We do the work.</p>
-      </div>
-      <div class="steps">
-        <div class="step reveal">
-          <div class="num">1</div>
-          <h3>Tell us about your business</h3>
-          <p>Chat with us on WhatsApp or call. We'll ask what you sell, how many branches and staff you have, and which features you need.</p>
-        </div>
-        <div class="step reveal">
-          <div class="num">2</div>
-          <h3>We set everything up</h3>
-          <p>Our team builds your system on your own address, like <code>yourbusiness.nkabomerp.cc</code>, with your products, staff and Mobile Money ready.</p>
-        </div>
-        <div class="step reveal">
-          <div class="num">3</div>
-          <h3>Log in and start selling</h3>
-          <p>Open it in any browser on a laptop, tablet or phone. We show your team around and stay on hand for support.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CAPABILITIES ================= -->
-  <section id="capabilities">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="eyebrow">One system, however your business runs</div>
-        <h2>Built for supermarkets, malls, warehouses, pharmacies, retail &amp; more</h2>
-        <p>Most business software sells accounting, CRM and inventory as separate add-ons. Here it's all included — one login, one system.</p>
-      </div>
-      <div class="fgroups">
-        <div class="fgroup reveal"><h3>Supermarkets</h3><ul>
-          <li>Point of Sale for fast checkout</li><li>Barcode scanning</li><li>Large inventory management</li>
-          <li>Multiple departments &amp; sections</li><li>Price lists &amp; promotions</li><li>Low-stock alerts</li></ul></div>
-        <div class="fgroup reveal"><h3>Malls</h3><ul>
-          <li>Manage multiple stores and branches</li><li>Track sales across locations</li><li>Centralized inventory</li>
-          <li>Tenant and business management</li><li>Reports across all locations</li><li>Role-based staff access</li></ul></div>
-        <div class="fgroup reveal"><h3>Retail &amp; checkout</h3><ul>
-          <li>Point of Sale for walk-in customers</li><li>Barcode scanning</li><li>Price lists &amp; discounts</li>
-          <li>Customer loyalty tracking</li><li>Multiple stores or branches</li></ul></div>
-        <div class="fgroup reveal"><h3>Warehousing &amp; stock</h3><ul>
-          <li>Multi-warehouse inventory</li><li>Batch &amp; expiry date tracking</li><li>Serial number tracking</li>
-          <li>Stock transfers between locations</li><li>Low-stock reorder alerts</li><li>Stock reconciliation &amp; audits</li></ul></div>
-        <div class="fgroup reveal"><h3>Money &amp; accounts</h3><ul>
-          <li>Invoicing &amp; billing</li><li>Mobile Money (MTN, Telecel, AirtelTigo)</li><li>Expense tracking</li>
-          <li>Bank reconciliation</li><li>Multi-currency support</li><li>Profit &amp; loss, balance sheet</li></ul></div>
-        <div class="fgroup reveal"><h3>Purchasing &amp; suppliers</h3><ul>
-          <li>Purchase orders</li><li>Supplier bills &amp; payments</li><li>Purchase requests</li><li>Landed cost tracking</li></ul></div>
-        <div class="fgroup reveal"><h3>People &amp; teams</h3><ul>
-          <li>Staff logins with permissions</li><li>Attendance &amp; leave tracking</li><li>Payroll</li><li>Employee records</li></ul></div>
-        <div class="fgroup reveal"><h3>Customers &amp; growth</h3><ul>
-          <li>Customer &amp; lead management</li><li>Quotations</li><li>Support ticketing</li><li>Email &amp; notification templates</li></ul></div>
-        <div class="fgroup reveal"><h3>Reports &amp; control</h3><ul>
-          <li>Real-time dashboards</li><li>Custom reports</li><li>Activity &amp; audit trail</li><li>Role-based access control</li></ul></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= SCREENS ================= -->
-  <section id="screens" class="alt">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="eyebrow">See it in action</div>
-        <h2>A look inside NkabomERP</h2>
-        <p>Real screens from the live system.</p>
-      </div>
-      <div class="screens-grid">
-        <div class="screen-card reveal">
-          <div class="browser-chrome">
-            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <img class="shot" src="asset/screenshot-home.png" alt="NkabomERP home screen with guided setup checklist" loading="lazy">
-          </div>
-          <h3>Guided setup</h3>
-          <p class="screen-caption">Get items, customers and invoices in place from day one.</p>
-        </div>
-        <div class="screen-card reveal">
-          <div class="browser-chrome">
-            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <img class="shot" src="asset/screenshot-crm.png" alt="NkabomERP CRM screen showing leads and sales pipeline" loading="lazy">
-          </div>
-          <h3>CRM &amp; sales pipeline</h3>
-          <p class="screen-caption">Track leads, opportunities and deals in one view.</p>
-        </div>
-        <div class="screen-card reveal">
-          <div class="browser-chrome">
-            <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-            <img class="shot" src="asset/screenshot-integrations.png" alt="NkabomERP integrations screen listing authentication, backup and payment connections" loading="lazy">
-          </div>
-          <h3>Integrations</h3>
-          <p class="screen-caption">Connect sign-in, backups and payment providers.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= PRICING ================= -->
-  <!-- TODO: replace every "GH₵ —" with your real monthly prices -->
-  <section id="pricing">
-    <div class="wrap">
-      <div class="section-head center reveal">
-        <div class="eyebrow">Pricing</div>
-        <h2>Simple monthly plans</h2>
-        <p>Pay monthly. Setup, hosting, backups and support included.</p>
-      </div>
-      <div class="pricing">
-        <div class="plan reveal">
-          <h3>Starter</h3>
-          <p class="for">For small shops getting organised.</p>
-          <div class="price">GH₵ — <small>/ month</small></div>
-          <ul>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Sales, invoicing &amp; inventory</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Mobile Money payments</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Up to 3 staff logins</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>One branch</li>
-          </ul>
-          <a class="btn btn-outline btn-block" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Get Starter</a>
-        </div>
-        <div class="plan featured reveal">
-          <span class="tag">MOST POPULAR</span>
-          <h3>Business</h3>
-          <p class="for">For growing businesses with a team.</p>
-          <div class="price">GH₵ — <small>/ month</small></div>
-          <ul>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Everything in Starter</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Point of Sale &amp; barcode scanning</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Full accounting &amp; reports</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Up to 10 staff logins</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Multiple branches</li>
-          </ul>
-          <a class="btn btn-primary btn-block" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Get Business</a>
-        </div>
-        <div class="plan reveal">
-          <h3>Enterprise</h3>
-          <p class="for">For supermarkets, malls &amp; warehouses.</p>
-          <div class="price">Custom</div>
-          <ul>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Everything in Business</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Payroll, HR &amp; assets</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Unlimited staff &amp; locations</li>
-            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12l5 5L20 7"/></svg>Priority support</li>
-          </ul>
-          <a class="btn btn-outline btn-block" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Talk to us</a>
-        </div>
-      </div>
-      <p class="pricing-note">Not sure which plan fits? Message us and we'll recommend one.</p>
-    </div>
-  </section>
-
-  <!-- ================= FAQ ================= -->
-  <section id="faq" class="alt">
-    <div class="wrap">
-      <div class="section-head center reveal">
-        <div class="eyebrow">FAQ</div>
-        <h2>Questions, answered</h2>
-      </div>
-      <div class="faq reveal">
-        <details>
-          <summary>Do I need to install anything?</summary>
-          <div class="answer"><p>No. NkabomERP runs in your web browser. Open your business address on any laptop, tablet or phone and log in.</p></div>
-        </details>
-        <details>
-          <summary>How long does setup take?</summary>
-          <div class="answer"><p>Most businesses are live within a day. Larger setups with many branches or products can take a little longer, and we'll tell you upfront.</p></div>
-        </details>
-        <details>
-          <summary>Can I accept Mobile Money?</summary>
-          <div class="answer"><p>Yes. MTN Mobile Money, Telecel Cash and AirtelTigo Money are built in, and payments are recorded against your invoices.</p></div>
-        </details>
-        <details>
-          <summary>Is my business data safe?</summary>
-          <div class="answer"><p>Each business gets its own separate system and address. Connections are encrypted with HTTPS and your data is backed up regularly.</p></div>
-        </details>
-        <details>
-          <summary>What if my internet is slow?</summary>
-          <div class="answer"><p>The system is light and works on ordinary mobile data. You only need a connection when you're using it.</p></div>
-        </details>
-        <details>
-          <summary>Can I add more staff or branches later?</summary>
-          <div class="answer"><p>Yes. Message us whenever you grow and we'll add staff logins, branches or features to your system.</p></div>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= CONTACT ================= -->
   <section id="contact">
-    <div class="wrap">
-      <div class="section-head reveal">
-        <div class="eyebrow">Get in touch</div>
-        <h2>Tell us a bit about your business</h2>
-        <p>We'll set you up — most businesses are live within a day.</p>
+    <div class="eyebrow-label">Get in touch</div>
+    <h2 class="section-label">Tell us a bit about your business</h2>
+    <p class="section-sub">We'll set you up most businesses are live within a day.</p>
+
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div>
+          <div class="label">WhatsApp</div>
+          <div class="value">055 256 6040</div>
+        </div>
+        <a class="chat" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Chat now →</a>
       </div>
-      <div class="contact-grid">
-        <a class="contact-card reveal" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
-          <div><div class="label">WhatsApp</div><div class="value">055 256 6040</div></div>
-          <span class="go">Chat now →</span>
-        </a>
-        <a class="contact-card reveal" href="https://wa.me/233245199731" target="_blank" rel="noopener noreferrer">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
-          <div><div class="label">WhatsApp</div><div class="value">024 519 9731</div></div>
-          <span class="go">Chat now →</span>
-        </a>
-        <a class="contact-card reveal" href="tel:+233552566040">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-          <div><div class="label">Call</div><div class="value">055 256 6040</div></div>
-          <span class="go">Call now →</span>
-        </a>
-        <a class="contact-card reveal" href="mailto:nkabomerp@gmail.com">
-          <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></div>
-          <div><div class="label">Email</div><div class="value">nkabomerp@gmail.com</div></div>
-          <span class="go">Send email →</span>
-        </a>
+      <div class="contact-card">
+        <div>
+          <div class="label">WhatsApp</div>
+          <div class="value">024 519 9731</div>
+        </div>
+        <a class="chat" href="https://wa.me/233245199731" target="_blank" rel="noopener noreferrer">Chat now →</a>
+      </div>
+      <div class="contact-card">
+        <div>
+          <div class="label">Call</div>
+          <div class="value">055 256 6040</div>
+        </div>
+        <a class="chat" href="tel:+233552566040">Call now →</a>
+      </div>
+      <div class="contact-card">
+        <div>
+          <div class="label">Email</div>
+          <div class="value">nkabomerp@gmail.com</div>
+        </div>
+        <a class="chat" href="mailto:nkabomerp@gmail.com">Send email →</a>
       </div>
     </div>
   </section>
 
-  <!-- ================= CTA BAND ================= -->
-  <div class="cta-band">
-    <div class="wrap">
-      <div class="cta-box reveal">
-        <div>
-          <h2>Ready to run your business properly?</h2>
-          <p>Send us a message today. We'll have your system ready, usually within a day.</p>
-        </div>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="https://wa.me/233552566040" target="_blank" rel="noopener noreferrer">Chat on WhatsApp</a>
-          <a class="btn btn-ghost" href="tel:+233552566040">Call 055 256 6040</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</main>
+</div>
 
 <footer>
   <div class="wrap">
-    <div class="foot-grid">
-      <div>
-        <a class="brand" href="#top"><img src="asset/erpnext-logo-blue.png" alt="" class="logo"><span>NkabomERP</span></a>
-        <p class="tagline">Business management, built for African businesses.</p>
-      </div>
-      <div class="links">
-        <div>
-          <h4>Product</h4>
-          <a href="#features">Features</a>
-          <a href="#capabilities">Industries</a>
-          <a href="#pricing">Pricing</a>
-        </div>
-        <div>
-          <h4>Help</h4>
-          <a href="#how">How it works</a>
-          <a href="#faq">FAQ</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© 2026 NEXQAT Technologies · NkabomERP. Powered by Frappe.</span>
-      <span>Made with ❤️ in Ghana</span>
-    </div>
+    <p>© 2026 NEXQAT NkabomERP. Business management, built for African businesses.</p>
+    <p>Powered by Frappe</p>
+    <p>Made with ❤️ in Ghana</p>
   </div>
 </footer>
 
 <script src="/js/app.js" defer></script>
+
 </body>
 </html>
