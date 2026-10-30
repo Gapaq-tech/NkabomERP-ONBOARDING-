@@ -20,8 +20,6 @@
 ">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
-<meta http-equiv="X-Frame-Options" content="DENY">
-<meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NkabomERP Business management, built for African businesses</title>
@@ -383,6 +381,19 @@
   footer .wrap{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;}
   footer p{color:var(--ink-faint);font-size:0.86rem;margin:0;}
 
+
+  /* ---------- small polish ---------- */
+  header{transition:box-shadow .2s ease;}
+  header.scrolled{box-shadow:0 6px 20px -14px rgba(14,42,71,0.35);}
+  .screen-caption strong{color:var(--navy);font-weight:600;}
+  .screen-card .browser-chrome{transition:transform .15s ease, box-shadow .15s ease;}
+  .screen-card:hover .browser-chrome{transform:translateY(-2px);box-shadow:0 18px 32px -18px rgba(14,42,71,0.35);}
+  .contact-card{transition:box-shadow .15s ease, transform .15s ease;}
+  .contact-card:hover{box-shadow:0 14px 28px -18px rgba(14,42,71,0.25);transform:translateY(-2px);}
+  .fgroup{transition:box-shadow .15s ease;}
+  .fgroup:hover{box-shadow:0 14px 28px -18px rgba(14,42,71,0.25);}
+  footer p:first-child{color:var(--ink-soft);}
+
   :focus-visible{outline:2px solid var(--green-deep);outline-offset:2px;}
 
   @media (prefers-reduced-motion: reduce){
@@ -476,7 +487,7 @@
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg>
         </div>
         <h3>Mobile Money built in</h3>
-        <p>MTN Mobile Money, Vodafone Cash, and AirtelTigo Money ready to accept from the start.</p>
+        <p>MTN Mobile Money, Telecel Cash, and AirtelTigo Money ready to accept from the start.</p>
       </div>
 
       <div class="feature">
@@ -492,7 +503,7 @@
           <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></svg>
         </div>
         <h3>Reports &amp; insights</h3>
-        <p>See how the business is doing — sales, stock, and money owed without digging through paperwork.</p>
+        <p>See how the business is doing — sales, stock, and money owed — without digging through paperwork.</p>
       </div>
 
       <div class="feature">
@@ -506,11 +517,6 @@
   </section>
 
   <section id="capabilities">
-    <div class="eyebrow-label">One system, however your business runs</div>
-    <h2 class="section-label">Built for warehouses, pharmacies, retail &amp; more</h2>
-    <p class="section-sub">Most business software sells accounting, CRM, and inventory as separate add-ons. Here, it's all included one login, one system.</p>
-
-    <section id="capabilities">
 
   <div class="eyebrow-label">One system, however your business runs</div>
 
@@ -576,7 +582,7 @@
       <h3>Money &amp; accounts</h3>
       <ul>
         <li>Invoicing &amp; billing</li>
-        <li>Mobile Money (MTN, Vodafone, AirtelTigo)</li>
+        <li>Mobile Money (MTN, Telecel, AirtelTigo)</li>
         <li>Expense tracking</li>
         <li>Bank reconciliation</li>
         <li>Multi-currency support</li>
@@ -638,12 +644,10 @@
 
 </section>
 
-  </section>
-
   <section id="screens">
     <div class="eyebrow-label">See it in action</div>
     <h2 class="section-label">A look inside NkabomERP</h2>
-    <p class="section-sub">Real screens from the live system guided setup, sales pipeline, and integrations, all in one place.</p>
+    <p class="section-sub">Real screens from the live system — guided setup, sales pipeline, and integrations, all in one place.</p>
 
     <div class="screens-grid">
       <div class="screen-card">
@@ -651,7 +655,7 @@
           <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
           <img class="shot" src="asset/screenshot-home.png" alt="NkabomERP home screen with guided setup checklist for items, customers, and invoices">
         </div>
-        <p class="screen-caption">Guided setup get item, customer, and invoice records in place from day one.</p>
+        <p class="screen-caption"><strong>Guided setup</strong> — get item, customer, and invoice records in place from day one.</p>
       </div>
 
       <div class="screen-card">
@@ -659,7 +663,7 @@
           <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
           <img class="shot" src="asset/screenshot-crm.png" alt="NkabomERP CRM screen showing leads, opportunities, and sales pipeline shortcuts">
         </div>
-        <p class="screen-caption">CRM  track leads, opportunities, and the sales pipeline in one view.</p>
+        <p class="screen-caption"><strong>CRM</strong> — track leads, opportunities, and the sales pipeline in one view.</p>
       </div>
 
       <div class="screen-card">
@@ -667,7 +671,7 @@
           <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
           <img class="shot" src="asset/screenshot-integrations.png" alt="NkabomERP integrations screen listing authentication, backup, and payment connections">
         </div>
-        <p class="screen-caption">Integrations connect authentication, backups, and payment providers.</p>
+        <p class="screen-caption"><strong>Integrations</strong> — connect authentication, backups, and payment providers.</p>
       </div>
     </div>
   </section>
@@ -675,7 +679,7 @@
   <section id="contact">
     <div class="eyebrow-label">Get in touch</div>
     <h2 class="section-label">Tell us a bit about your business</h2>
-    <p class="section-sub">We'll set you up most businesses are live within a day.</p>
+    <p class="section-sub">We'll set you up — most businesses are live within a day.</p>
 
     <div class="contact-grid">
       <div class="contact-card">

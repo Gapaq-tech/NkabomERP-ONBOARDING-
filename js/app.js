@@ -63,4 +63,11 @@
 
     sections.forEach(function (s) { observer.observe(s); });
   }
+
+  /* Header shadow once the page is scrolled */
+  function onScroll() {
+    header.classList.toggle('scrolled', window.scrollY > 8);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 })();
